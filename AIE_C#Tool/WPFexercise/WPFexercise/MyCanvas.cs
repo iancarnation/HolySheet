@@ -11,7 +11,7 @@ namespace WPFexercise
 {
     public class MyCanvas : Canvas
     {
-        BitmapImage background = null;
+        public BitmapImage background = null;
 
         public void LoadImage(string filename)
         {

@@ -24,36 +24,35 @@ namespace WPFexercise
             InitializeComponent();
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void MenuItemOpen_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.FileName = "image"; // Default file name
-            dlg.DefaultExt = ".png"; // Default file extension
-            dlg.Filter = "Image FIles(*.png;*.jpg;*.gif;*.bmp)|*.png;*.jpg;*.gif;*.bmp"; // Filter files by extension
+            // run the Open File dialog and get the file path
+            string filename = FileIO.OpenDialog();
 
-            // Show open file dialog box
-            Nullable<bool> result = dlg.ShowDialog();
-
-            // Process open file dialog box results
-            if (result == true)
+            if (filename != null)
             {
-                // grab the file name of the image
-                string filename = dlg.FileName;
-
-                // and load the image
-
                 canvas1.LoadImage(filename);
             }
+            else
+            {
+                return;
+            }
+            
         }
 
         private void MenuItemSave_Click(object sender, RoutedEventArgs e)
         {
-            
+            // run the Save File dialog and create file path
+            string filename = FileIO.SaveDialog();
+
+            if (filename != null)
+            {
+                FileIO.Save(canvas1.background, filename);
+            }
+            else
+            {
+                return;
+            }
         }
     }
 }
