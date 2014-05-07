@@ -153,6 +153,30 @@ namespace WPFexercise
             }
         }
 
+        // Determine Canvas Size..let's go with nearest power of two
+        // - determine total area in pixels = pixelArea
+        // - determine total area in image units = unitArea
+        // - calculate average image size (try using just width to start) = avgUnitWidth
+        // - determine desired canvas size 
+        // - - find square root of pixelArea
+        // - - find the next greatest number that is a power of two = desiredCanvasWidth
+        // - - set the canvas properties to new desired dimensions
+        // - determine how many units can wholly fit within the desiredCanvasWidth
+        // - - (int)(desiredCanvasWidth / avgUnitWidth) = maxUnitInRow
+
+        // Image Arrangement Logic
+        // - there are separate X and Y cursor values for determining the unit's placement on the canvas (in pixels) = cursor.X/Y
+        // - for each unit:
+        // - - if the unit ID is a multiple of maxUnitInRow:
+        // - - - move cursor.Y down to the bottom of unit with ID # this ID - maxUnitInRow
+        // - - - move cursor.X back to 0
+        // - - else:
+        // - - - add previous unit's width to cursor.X for proper offset amount
+        // - - - set unit's position
+        // - - create a DrawingVisual for the image
+        // - - add it to the collection ** should the DrawingVisual be a member of the Image?? **
+   
+
         private DrawingVisual CreateDrawingVisual(int index)
         {
             DrawingVisual drawingVisual = new DrawingVisual();

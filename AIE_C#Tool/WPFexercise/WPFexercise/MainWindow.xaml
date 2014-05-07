@@ -11,7 +11,7 @@
                 <MenuItem Header="_Save" Click="MenuItemSave_Click"></MenuItem>
             </MenuItem>
         </Menu>
-        <Canvas Height="282" HorizontalAlignment="Left" x:Name="canvas1" 
-                        VerticalAlignment="Top" Width="878" Margin="0,29,0,0" />
+        <Canvas Height="216" HorizontalAlignment="Left" x:Name="canvas1" 
+                        VerticalAlignment="Top" Width="780" Margin="50,50,0,0" />
     </Grid>
 </Window>
