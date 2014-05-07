@@ -2,16 +2,16 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:WPFexercise"
-        Title="Plot Points" Height="350" Width="525">
+        Title="Holy Sheet" Height="350" Width="900" Loaded="WindowLoaded">
     <Grid>
         <Menu Height="23" HorizontalAlignment="Left" Name="menu1"
-              VerticalAlignment="Top" Width="503">
+              VerticalAlignment="Top" Width="878">
             <MenuItem Header="_File">
                 <MenuItem Header="_Open" Click="MenuItemOpen_Click"></MenuItem>
                 <MenuItem Header="_Save" Click="MenuItemSave_Click"></MenuItem>
             </MenuItem>
         </Menu>
-        <local:MyCanvas Height="282" HorizontalAlignment="Left" x:Name="canvas1" 
-                        VerticalAlignment="Top" Width="503" Margin="0,29,0,0" />
+        <Canvas Height="282" HorizontalAlignment="Left" x:Name="canvas1" 
+                        VerticalAlignment="Top" Width="878" Margin="0,29,0,0" />
     </Grid>
 </Window>
