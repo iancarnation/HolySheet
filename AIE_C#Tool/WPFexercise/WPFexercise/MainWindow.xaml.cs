@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Xml.Linq;
 using System.Windows.Shapes;
 
 namespace WPFexercise
@@ -23,6 +24,11 @@ namespace WPFexercise
         {
             InitializeComponent(); // still need this?
             MyVisualHost visualHost = new MyVisualHost();
+            // set canvas size here?
+            int canvasSize = visualHost.CalculateCanvas();
+            canvas1.Width = canvasSize;
+            canvas1.Height = canvasSize;
+
             canvas1.Children.Add(visualHost);
         }
         private void MenuItemOpen_Click(object sender, RoutedEventArgs e)
@@ -64,6 +70,11 @@ namespace WPFexercise
         // Create a collection of child visual objects
         private VisualCollection _children;
         public List<Image> imageList = new List<Image>();
+        public XDocument atlasXML;
+
+        public double pixelArea = 0;   // the total area of all images (in pixels) ** should this be int?**
+        public double maxUnitWidth = 0;// greatest width of an image, helps determine how many can fit in a row
+        public int canvasSize = 0;     // size of canvas side (square)
 
         public MyVisualHost()
         {
@@ -103,6 +114,11 @@ namespace WPFexercise
             return HitTestResultBehavior.Stop;
         }
 
+        public List<Image> GetImageList()
+        {
+            return imageList;
+        }
+
         public void LoadImages()
         {
             // run the Open File dialog and get the paths and names for all files
@@ -112,9 +128,6 @@ namespace WPFexercise
 
             if (filePaths[0] != null)
             {
-                // create "cursor" for image insertion point
-                System.Windows.Vector cursor = new Vector(0, 0);
-
                 // initialize Image objects and poplulate imageList
                 for (int i = 0; i < filePaths.Length; i++)
                 {
@@ -129,54 +142,129 @@ namespace WPFexercise
                     image.Frame = BitmapDecoder.Create(new Uri(image.FilePath), BitmapCreateOptions.None, BitmapCacheOption.OnLoad).Frames.First();
                     image.Width = image.Frame.PixelWidth;
                     image.Height = image.Frame.PixelHeight;
+                    // add image's area to total pixel area, and width to total pixel width
+                    double imageArea = image.Width * image.Height;
+                    pixelArea += imageArea;
+                    if (image.Width > maxUnitWidth)
+                    {
+                        maxUnitWidth = image.Width;
+                    }
                     // add image to list now to allow for checking previous image for dimensions (to determine position)
                     imageList.Add(image);
-                    // determine proper position ** currently only making a strip, later determine proper sheet size **
-                    if (i == 0)
-                    {
-                        image.Position = cursor;
-                    }
-                    else
-                    {
-                        // add previous images width to X coordinate for proper offset amount
-                        cursor.X += imageList[i - 1].Width;
-                        image.Position = cursor;
-                    }
-                    // create a DrawingVisual for the image
-                    // add it to the collection ** should the DrawingVisual be a member of the Image?? **
-                    _children.Add(CreateDrawingVisual(i));
                 }
+                // - determine total area in pixels = pixelArea
+                // - determine the total number of images (area in 'units') = unitArea
+                int unitArea = imageList.Count();
+                // Determine canvas size
+                canvasSize = CalculateCanvas();
+                // Arrange Images
+                ArrangeImages();                
             }
             else
             {
                 return;
             }
         }
-
-        // Determine Canvas Size..let's go with nearest power of two
-        // - determine total area in pixels = pixelArea
-        // - determine total area in image units = unitArea
-        // - calculate average image size (try using just width to start) = avgUnitWidth
-        // - determine desired canvas size 
-        // - - find square root of pixelArea
-        // - - find the next greatest number that is a power of two = desiredCanvasWidth
-        // - - set the canvas properties to new desired dimensions
-        // - determine how many units can wholly fit within the desiredCanvasWidth
-        // - - (int)(desiredCanvasWidth / avgUnitWidth) = maxUnitInRow
-
+        // Determine Canvas Size..let's go with nearest power of two for now
+        public int CalculateCanvas()
+        {
+            // find square root of pixelArea
+            double sqrtPixArea = Math.Sqrt(pixelArea);
+            // find the next greatest number that is a power of two = desiredCanvasWidth
+            int desiredCanvasWidth = (int)sqrtPixArea;
+            NextPower2(ref desiredCanvasWidth);
+            // set the canvas properties to new desired dimensions
+            return desiredCanvasWidth;
+        }
         // Image Arrangement Logic
-        // - there are separate X and Y cursor values for determining the unit's placement on the canvas (in pixels) = cursor.X/Y
-        // - for each unit:
-        // - - if the unit ID is a multiple of maxUnitInRow:
-        // - - - move cursor.Y down to the bottom of unit with ID # this ID - maxUnitInRow
-        // - - - move cursor.X back to 0
-        // - - else:
-        // - - - add previous unit's width to cursor.X for proper offset amount
-        // - - - set unit's position
-        // - - create a DrawingVisual for the image
-        // - - add it to the collection ** should the DrawingVisual be a member of the Image?? **
-   
+        public void ArrangeImages()
+        {
+            // determine how many units can wholly fit within the desiredCanvasWidth
+            int maxUnitInRow = (int)(canvasSize / maxUnitWidth);
+            // there are separate X and Y cursor values for determining the unit's placement on the canvas (in pixels) = cursor.X/Y
+            // create "cursor" for image insertion point
+            System.Windows.Vector cursor = new Vector(0, 0);
+            
+            for (int i = 0; i < imageList.Count(); i++)
+            {
+                if (i == 0)
+                {
+                    imageList[i].Position = cursor;
+                }
+                else
+                {
+                    // if the unit ID is a multiple of maxUnitInRow:
+                    if (imageList[i].ID % maxUnitInRow == 0)
+                    {
+                        // move cursor.Y down to the bottom of unit with ID = this ID - maxUnitInRow
+                        cursor.Y += (imageList[(imageList[i].ID - maxUnitInRow)].Height);
+                        // move cursor.X back to 0
+                        cursor.X = 0;
+                        // set unit's position
+                        imageList[i].Position = cursor;
+                    }
+                    else
+                    {
+                        // add previous unit's width to cursor.X for proper offset amount
+                        cursor.X += imageList[i - 1].Width;
+                        // set unit's position
+                        imageList[i].Position = cursor;
+                    }
+                }
+                // create a DrawingVisual for the image
+                // add it to the collection ** should the DrawingVisual be a member of the Image?? **
+                _children.Add(CreateDrawingVisual(i));
+            }
+        }
 
+        // creates the XML document for the texture atlas
+        // thanks @terrehbyte for pointing out array creation strategy!
+        public void MakeXML(string a_sFileName)
+        {
+            Object[] elements = new Object[imageList.Count()];
+            for (int i = 0; i < imageList.Count(); i++)
+            {
+                XElement node = new XElement("SubTexture");
+
+                Image image = imageList[i];
+
+                node.SetAttributeValue("name", image.Name);
+                node.SetAttributeValue("x", image.X);
+                node.SetAttributeValue("y", image.Y);
+                node.SetAttributeValue("width", image.Width);
+                node.SetAttributeValue("height", image.Height);
+
+                elements[i] = node;
+            }
+
+            XElement rootNode = new XElement("TextureAtlas", elements);
+            rootNode.SetAttributeValue("imagePath", a_sFileName);
+
+            XDeclaration dec = new XDeclaration("1.0", "utf-8", "yes");
+
+            XDocument d = new XDocument(dec, rootNode);
+
+            // set public doc
+            atlasXML = d;
+        }
+
+        public void NextPower2(ref int a_irValue)
+        {
+            bool b;
+
+            b = (a_irValue & (a_irValue - 1)) == 0; // determines whether value is a power of 2
+
+            if (!b)
+            {
+                a_irValue --;
+                a_irValue |= a_irValue >> 1;
+                a_irValue |= a_irValue >> 2;
+                a_irValue |= a_irValue >> 4;
+                a_irValue |= a_irValue >> 8;
+                a_irValue |= a_irValue >> 16;
+                a_irValue ++;
+            }
+        }
         private DrawingVisual CreateDrawingVisual(int index)
         {
             DrawingVisual drawingVisual = new DrawingVisual();

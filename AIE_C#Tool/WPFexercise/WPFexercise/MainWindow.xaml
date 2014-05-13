@@ -2,16 +2,19 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:WPFexercise"
-        Title="Holy Sheet" Height="350" Width="900" Loaded="WindowLoaded">
+        Title="Holy Sheet" Height="Auto" Width="Auto" Loaded="WindowLoaded">
     <Grid>
-        <Menu Height="23" HorizontalAlignment="Left" Name="menu1"
-              VerticalAlignment="Top" Width="878">
+        <Menu Height="Auto" HorizontalAlignment="Left" Name="menu1"
+              VerticalAlignment="Top" Width="Auto">
             <MenuItem Header="_File">
                 <MenuItem Header="_Open" Click="MenuItemOpen_Click"></MenuItem>
                 <MenuItem Header="_Save" Click="MenuItemSave_Click"></MenuItem>
             </MenuItem>
         </Menu>
-        <Canvas Height="216" HorizontalAlignment="Left" x:Name="canvas1" 
-                        VerticalAlignment="Top" Width="780" Margin="50,50,0,0" />
+        <Border BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Center" VerticalAlignment="Center"
+                Width="Auto" Height="Auto" Margin="50,50,50,50">
+            <Canvas Height="200" Width="200" HorizontalAlignment="Center" Name="canvas1" 
+                            VerticalAlignment="Center"  Margin="5,5,5,5" />
+        </Border>
     </Grid>
 </Window>

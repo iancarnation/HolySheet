@@ -11,6 +11,8 @@ using System.IO;
 
 using System.Text.RegularExpressions;
 
+using System.Xml.Linq;
+
 namespace WPFexercise
 {
     static class FileIO
@@ -100,7 +102,10 @@ namespace WPFexercise
                     }
             
             }
-            
+            // Save XML File
+            SaveXML(a_oSurface, fileName);
+
+
             // Export Canvas
             // reference: http://denisvuyka.wordpress.com/2007/12/03/wpf-diagramming-saving-you-canvas-to-image-xps-document-or-raw-xaml/
             // Save current canvas 
@@ -157,6 +162,42 @@ namespace WPFexercise
              * */
 
         }
+        public static void SaveXML(Canvas a_oCanvas, string a_sFileName)
+        {
+            
+            XDocument d = new XDocument(
+                new XComment("This is a comment."),
+                new XElement("TextureAtlas",
+                    new XAttribute("imagePath", a_sFileName),
+                    new XAttribute("width", a_oCanvas.Width),
+                    new XAttribute("height", a_oCanvas.Height),
+                    // for each image in list
+                    //for (int i=0; i < a_oCanvas.
+                    new XElement("Book",
+                        new XElement("Title", "Artifacts of Roman Civilization"),
+                        new XElement("Author", "Moreno, Jordao")
+                    ),
+                    new XElement("Book",
+                        new XElement("Title", "Medieval Tools and Implements"),
+                        new XElement("Author", "Gazit, Inbar")
+                    )
+                ),
+                new XComment("This is another comment.")
+            );
+            d.Declaration = new XDeclaration("1.0", "utf-8", "true");
+            Console.WriteLine(d);
+
+            // change file extension
+            string fileName = System.IO.Path.ChangeExtension(a_sFileName, ".xml");
+            
+
+            // create a file stream for saving file
+            FileStream fileStream = new FileStream(fileName, FileMode.Create);
+            // save data to the stream
+            d.Save(fileStream);
+            fileStream.Close();
+        }
+
         
     };
 }

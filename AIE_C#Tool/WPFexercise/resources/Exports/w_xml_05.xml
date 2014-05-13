@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--This is a comment.-->
+<TextureAtlas imagePath="C:\Users\Student\Documents\GitHub\WPF_Practice\AIE_C#Tool\WPFexercise\resources\Exports\w_xml_05.png">
+  <Book>
+    <Title>Artifacts of Roman Civilization</Title>
+    <Author>Moreno, Jordao</Author>
+  </Book>
+  <Book>
+    <Title>Medieval Tools and Implements</Title>
+    <Author>Gazit, Inbar</Author>
+  </Book>
+</TextureAtlas>
+<!--This is another comment.-->
