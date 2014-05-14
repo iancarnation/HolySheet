@@ -69,8 +69,7 @@ namespace WPFexercise
     {
         // Create a collection of child visual objects
         private VisualCollection _children;
-        public List<Image> imageList = new List<Image>();
-        public XDocument atlasXML;
+        public List<Image> imageList;
 
         public double pixelArea = 0;   // the total area of all images (in pixels) ** should this be int?**
         public double maxUnitWidth = 0;// greatest width of an image, helps determine how many can fit in a row
@@ -79,6 +78,7 @@ namespace WPFexercise
         public MyVisualHost()
         {
             _children = new VisualCollection(this);
+            imageList = new List<Image>();
             // Open File Dialog and load images
             this.LoadImages();
             this.MouseLeftButtonUp += new MouseButtonEventHandler(MyVisualHost_MouseLeftButtonUp);
@@ -215,37 +215,6 @@ namespace WPFexercise
                 // add it to the collection ** should the DrawingVisual be a member of the Image?? **
                 _children.Add(CreateDrawingVisual(i));
             }
-        }
-
-        // creates the XML document for the texture atlas
-        // thanks @terrehbyte for pointing out array creation strategy!
-        public void MakeXML(string a_sFileName)
-        {
-            Object[] elements = new Object[imageList.Count()];
-            for (int i = 0; i < imageList.Count(); i++)
-            {
-                XElement node = new XElement("SubTexture");
-
-                Image image = imageList[i];
-
-                node.SetAttributeValue("name", image.Name);
-                node.SetAttributeValue("x", image.X);
-                node.SetAttributeValue("y", image.Y);
-                node.SetAttributeValue("width", image.Width);
-                node.SetAttributeValue("height", image.Height);
-
-                elements[i] = node;
-            }
-
-            XElement rootNode = new XElement("TextureAtlas", elements);
-            rootNode.SetAttributeValue("imagePath", a_sFileName);
-
-            XDeclaration dec = new XDeclaration("1.0", "utf-8", "yes");
-
-            XDocument d = new XDocument(dec, rootNode);
-
-            // set public doc
-            atlasXML = d;
         }
 
         public void NextPower2(ref int a_irValue)

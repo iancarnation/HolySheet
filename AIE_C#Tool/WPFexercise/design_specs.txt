@@ -1,0 +1,35 @@
+GUI Design Specs:
+
+Functionality:
+
+Basic:
+
+- load group of image files
+- tile images within specified constraints (i.e. in a square with edge size as a power of 2)
+- export the tiled images as one image file
+- export an XML file with data for each individual image's name, dimensions and location on the assembled sheet
+
+
+Desired:
+
+- select a group of images within the preview and create an animation
+- export an XML file with animation data
+- customize XML element and attribute names
+
+UI:
+
+Basic:
+
+- save button to export assembled sheet and XML file (Open file dialog runs automatically at launch)
+- preview area to display arrangement of images
+- appropriate Open and Save dialog options (file formats, defaults)
+
+
+Desired:
+
+- load button
+- - allow folder selection
+- - allow asynchronous loading?  
+- preview window for animation
+- info window for sheet or individual image data
+- make it look gooder

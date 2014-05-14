@@ -164,32 +164,35 @@ namespace WPFexercise
         }
         public static void SaveXML(Canvas a_oCanvas, string a_sFileName)
         {
-            
-            XDocument d = new XDocument(
-                new XComment("This is a comment."),
-                new XElement("TextureAtlas",
-                    new XAttribute("imagePath", a_sFileName),
-                    new XAttribute("width", a_oCanvas.Width),
-                    new XAttribute("height", a_oCanvas.Height),
-                    // for each image in list
-                    //for (int i=0; i < a_oCanvas.
-                    new XElement("Book",
-                        new XElement("Title", "Artifacts of Roman Civilization"),
-                        new XElement("Author", "Moreno, Jordao")
-                    ),
-                    new XElement("Book",
-                        new XElement("Title", "Medieval Tools and Implements"),
-                        new XElement("Author", "Gazit, Inbar")
-                    )
-                ),
-                new XComment("This is another comment.")
-            );
-            d.Declaration = new XDeclaration("1.0", "utf-8", "true");
-            Console.WriteLine(d);
+            MyVisualHost vHost = (MyVisualHost)a_oCanvas.Children[0];
+            vHost.imageList.Count();
+            Object[] elements = new Object[vHost.imageList.Count()];
+            for (int i = 0; i < vHost.imageList.Count(); i++)
+            {
+                XElement node = new XElement("SubTexture");
+
+                Image image = vHost.imageList[i];
+
+                node.SetAttributeValue("name", image.Name);
+                node.SetAttributeValue("x", image.X);
+                node.SetAttributeValue("y", image.Y);
+                node.SetAttributeValue("width", image.Width);
+                node.SetAttributeValue("height", image.Height);
+
+                elements[i] = node;
+            }
+
+            XElement rootNode = new XElement("TextureAtlas", elements);
+            string safeName = Path.GetFileName(a_sFileName);
+            rootNode.SetAttributeValue("imagePath", safeName);
+
+            XDeclaration dec = new XDeclaration("1.0", "utf-8", "yes");
+
+            XDocument d = new XDocument(dec, rootNode);
 
             // change file extension
             string fileName = System.IO.Path.ChangeExtension(a_sFileName, ".xml");
-            
+
 
             // create a file stream for saving file
             FileStream fileStream = new FileStream(fileName, FileMode.Create);
@@ -197,7 +200,5 @@ namespace WPFexercise
             d.Save(fileStream);
             fileStream.Close();
         }
-
-        
     };
 }
