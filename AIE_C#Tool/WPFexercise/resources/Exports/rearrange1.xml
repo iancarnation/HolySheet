@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<TextureAtlas imagePath="rearrange1.png">
+  <SubTexture name="Player_Back1.png" x="0" y="0" width="22" height="30" />
+  <SubTexture name="Player_Back2.png" x="22" y="0" width="22" height="29" />
+  <SubTexture name="Player_Back3.png" x="44" y="0" width="22" height="29" />
+  <SubTexture name="Player_Front1.png" x="66" y="0" width="22" height="30" />
+  <SubTexture name="Player_Front2.png" x="88" y="0" width="22" height="29" />
+  <SubTexture name="Player_Front3.png" x="0" y="30" width="22" height="29" />
+  <SubTexture name="Player_Left1.png" x="22" y="30" width="16" height="31" />
+  <SubTexture name="Player_Left2.png" x="38" y="30" width="17" height="31" />
+  <SubTexture name="Player_Left3.png" x="55" y="30" width="16" height="31" />
+  <SubTexture name="Player_Right1.png" x="71" y="30" width="16" height="31" />
+  <SubTexture name="Player_Right2.png" x="0" y="59" width="17" height="31" />
+</TextureAtlas>

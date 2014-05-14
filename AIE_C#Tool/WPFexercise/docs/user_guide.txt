@@ -1,0 +1,13 @@
+Help and User Guide:
+
+Instructions:
+1. run application
+2. upon launch, an Open File dialog will open
+3. navigate to, and select all the images you want to have on the sheet
+4. click 'Open' or press Enter
+5. Stare in awe at your automagically generated sprite sheet!
+6. To Save, click the File menu button
+7. Click Save and a Save File dialog box will open
+8. Enter desired file name and navigate to desired save location
+9. Click 'Save' or press Enter
+10. Your sprite sheet and XML data file now exist, hail Satan!

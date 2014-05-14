@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 namespace WPFexercise
 {
     // Class to represent an individual sprite on the sheet
-    public class Image
+    public class Sprite
     {
         string m_sFilePath, m_sSafeFileName;
         int m_iID;

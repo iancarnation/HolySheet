@@ -1,0 +1,29 @@
+Data Structures:
+
+
+MyVisualHost:
+-derived from FrameworkElement
+
+Fields:
+
+- _children - VisualCollection = collection to hold DrawingVisual objects
+- imageList - master List of Sprite objects
+
+- pixelArea - the total area of all images (in pixels)
+- maxUnitWidth - greatest width of an image, helps determine how many can fit in a row
+- canvasSize - size of canvas side (square)
+
+
+Sprite Class:
+
+Properties/Fields:
+
+- FilePath - the full file path of the image
+- Name - just the file name and extension
+- ID - a number, equal to index in master List of Sprites
+- Frame - a BitmapFrame object for the actual image
+- Position - vector representing location relative to the Canvas
+- Size - represents image dimensions
+
+
+

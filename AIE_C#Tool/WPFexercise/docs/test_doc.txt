@@ -1,0 +1,9 @@
+Test and GUI documentation:
+
+QA Questions:
+
+- Load a large amount of images?
+- Load just one image?
+- Load images of different sizes?
+- Load images a second time?
+- Load different file formats?

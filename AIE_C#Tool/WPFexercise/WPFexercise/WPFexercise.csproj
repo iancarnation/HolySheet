@@ -64,7 +64,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FileIO.cs" />
-    <Compile Include="Image.cs" />
+    <Compile Include="MyVisualHost.cs" />
+    <Compile Include="Sprite.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

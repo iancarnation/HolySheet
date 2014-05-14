@@ -171,7 +171,7 @@ namespace WPFexercise
             {
                 XElement node = new XElement("SubTexture");
 
-                Image image = vHost.imageList[i];
+                Sprite image = vHost.imageList[i];
 
                 node.SetAttributeValue("name", image.Name);
                 node.SetAttributeValue("x", image.X);

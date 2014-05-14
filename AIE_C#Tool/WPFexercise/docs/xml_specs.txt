@@ -1,0 +1,15 @@
+XML Design Specs:
+
+Declaration: version=1.0, encoding=utf-8, standalone=yes
+
+Root Node: TextureAtlas
+- Attributes:
+- - imagePath - file name and extension of sprite sheet file
+
+- Child Element: SubTexture
+- Attributes:
+- - name - identifies individual image(file name and extension)
+- - x - X coordinate of image origin
+- - y - Y coordinate of image origin
+- - width - width of image
+- - height - height of image

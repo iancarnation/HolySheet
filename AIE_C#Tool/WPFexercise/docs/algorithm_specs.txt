@@ -1,0 +1,35 @@
+Algorithm Specifications:
+
+
+Load Images:
+
+- run Open File dialog and get the paths and names for all files
+- initialize Sprite objects and populate master Sprite List
+
+
+- Determine Canvas Size:
+(current implementation makes a square with power of 2 edges)
+
+- find the square root of the total pixel area of the images
+- find the next greatest number that is a power of two
+- set the canvas properties to new desired dimensions
+
+
+- Sprite Arrangement:
+
+- determine how many units can wholly fit within the desired canvas width
+- create "cursor" for image insertion point
+- - there are separate X and Y cursor values for determining the unit's placement on the canvas (in pixels)
+- for each image in the list:
+- - if it is the first image, simply set it's position to current cursor value (0,0)
+- - otherwise:
+- - - if the unit will not fit on the current row:
+- - - - move cursor.Y down to the bottom of unit at the beginning of the row
+- - - - move cursor.X back to 0
+- - - - set unit's position
+- - - otherwise:
+- - - - add previous unit's width to cursor.X for proper offset amount
+- - - - set unit's position
+
+
+- create a DrawingVisual for the image and add it to the collection
