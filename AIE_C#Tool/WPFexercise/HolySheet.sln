@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFexercise", "WPFexercise\WPFexercise.csproj", "{34AA086B-E1EC-49F1-A1B7-4230EE6B08E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HolySheet", "WPFexercise\HolySheet.csproj", "{34AA086B-E1EC-49F1-A1B7-4230EE6B08E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

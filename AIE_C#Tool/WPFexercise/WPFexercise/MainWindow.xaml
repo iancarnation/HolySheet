@@ -1,13 +1,16 @@
-﻿<Window x:Class="WPFexercise.MainWindow"
+﻿<Window x:Class="HolySheet.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:WPFexercise"
+        xmlns:local="clr-namespace:HolySheet"
         Title="Holy Sheet" Height="Auto" Width="Auto" Loaded="WindowLoaded"
         SizeToContent="WidthAndHeight">
     <Grid>
         <Menu Height="Auto" HorizontalAlignment="Left" Name="menu1"
               VerticalAlignment="Top" Width="Auto">
-            <MenuItem Header="_Export" Click="MenuItemExport_Click"></MenuItem>
+            <MenuItem Header="_File">
+                <MenuItem Header="_Load Images" Click="MenuItemLoad_Click"></MenuItem>
+                <MenuItem Header="_Export" Click="MenuItemExport_Click"></MenuItem>
+            </MenuItem>
         </Menu>
         <Border BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Center" VerticalAlignment="Center" 
                 Width="Auto" Height="Auto" Margin="50,50,50,50">

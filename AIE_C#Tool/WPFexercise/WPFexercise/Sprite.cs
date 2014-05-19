@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace WPFexercise
+namespace HolySheet
 {
     // Class to represent an individual sprite on the sheet
     public class Sprite

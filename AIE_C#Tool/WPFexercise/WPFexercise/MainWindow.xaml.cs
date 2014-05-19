@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace WPFexercise
+namespace HolySheet
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -11,29 +11,17 @@ namespace WPFexercise
         private void WindowLoaded(object sender, EventArgs e)
         {
             InitializeComponent();
+            
+        }
+        private void MenuItemLoad_Click(object sender, RoutedEventArgs e)
+        {
             MyVisualHost visualHost = new MyVisualHost();
             // retrieve the calculated canvas size from visualHost
             int desiredCanvasSize = visualHost.canvasSize;
             canvas1.Width = desiredCanvasSize;
             canvas1.Height = desiredCanvasSize;
-            
+
             canvas1.Children.Add(visualHost);
-        }
-        private void MenuItemOpen_Click(object sender, RoutedEventArgs e)
-        {
-            //LoadImages();
-
-            //// run the Open File dialog and get the paths and names for all files
-            //string filename = FileIO.OpenDialog();
-
-            //if (filename != null)
-            //{
-            //    canvas1.LoadImage(filename);
-            //}
-            //else
-            //{
-            //    return;
-            //}
 
         }
 
