@@ -16,7 +16,8 @@ namespace WPFexercise
         public List<Sprite> imageList;
 
         public double pixelArea = 0;   // the total area of all images (in pixels) ** should this be int?**
-        public double maxUnitWidth = 0;// greatest width of an image, helps determine how many can fit in a row
+        //public double maxUnitWidth = 0;// greatest width of an image, helps determine how many can fit in a row
+        public double tallestInRow = 0;
         public int canvasSize = 0;     // size of canvas side (square)
 
         public MyVisualHost()
@@ -89,10 +90,10 @@ namespace WPFexercise
                     // add image's area to total pixel area, and width to total pixel width
                     double imageArea = image.Width * image.Height;
                     pixelArea += imageArea;
-                    if (image.Width > maxUnitWidth)
-                    {
-                        maxUnitWidth = image.Width;
-                    }
+                    //if (image.Height > tallestInRow)
+                    //{
+                    //    tallestInRow = image.Height;
+                    //}
                     // add image to list now to allow for checking previous image for dimensions (to determine position)
                     imageList.Add(image);
                 }
@@ -110,38 +111,52 @@ namespace WPFexercise
             }
         }
         // Determine Canvas Size..let's go with nearest power of two for now
-        public int CalculateCanvas()
+
+        public int CalculateCanvas(bool a_bIsTooSmall = false)
         {
             // find square root of pixelArea
             double sqrtPixArea = Math.Sqrt(pixelArea);
             // find the next greatest number that is a power of two = desiredCanvasWidth
             int desiredCanvasWidth = (int)sqrtPixArea;
             NextPower2(ref desiredCanvasWidth);
+            if (a_bIsTooSmall)
+            {
+                // increase by 1 so NextPower2() will increment it
+                desiredCanvasWidth += 1;
+                NextPower2(ref desiredCanvasWidth);
+            }
             // set the canvas properties to new desired dimensions
             return desiredCanvasWidth;
         }
         // Image Arrangement Logic
         public void ArrangeImages()
         {
-            // determine how many units can wholly fit within the desiredCanvasWidth
-            int maxUnitInRow = (int)(canvasSize / maxUnitWidth);
             // there are separate X and Y cursor values for determining the unit's placement on the canvas (in pixels) = cursor.X/Y
             // create "cursor" for image insertion point
             System.Windows.Vector cursor = new Vector(0, 0);
+            tallestInRow = 0;
 
             for (int i = 0; i < imageList.Count(); i++)
             {
+                // check if tallest in row
+                if (imageList[i].Height > tallestInRow)
+                {
+                    tallestInRow = imageList[i].Height;
+                }
+
                 if (i == 0)
                 {
                     imageList[i].Position = cursor;
                 }
                 else
                 {
-                    // if the unit will not fit on the current row(ID is a multiple of maxUnitInRow):
-                    if (imageList[i].ID % maxUnitInRow == 0)
+                    // if the unit will not fit on the current row(pixels would go beyond canvas edge):
+                    if (cursor.X + imageList[i - 1].Width + imageList[i].Width > canvasSize)
                     {
-                        // move cursor.Y down to the bottom of unit at the beginning of the row
-                        cursor.Y += (imageList[(imageList[i].ID - maxUnitInRow)].Height);
+                        // move move cursor.Y down equal to the height of the tallest image in the row
+                        cursor.Y += tallestInRow;
+                        // reset tallestInRow value
+                        tallestInRow = 0;
                         // move cursor.X back to 0
                         cursor.X = 0;
                         // set unit's position
@@ -155,9 +170,19 @@ namespace WPFexercise
                         imageList[i].Position = cursor;
                     }
                 }
-                // create a DrawingVisual for the image
-                // add it to the collection ** should the DrawingVisual be a member of the Image?? **
+                // create a DrawingVisual for the image and add it to the collection
                 _children.Add(CreateDrawingVisual(i));
+            }
+
+            // check if images have gone beneath edge of canvas...not sure why calculation isn't accurate
+            // so this is a band-aid for now
+            if (cursor.Y > canvasSize)
+            {
+                bool canvasTooSmall = true;
+                canvasSize = CalculateCanvas(canvasTooSmall);
+                // clear the Visual Collection to prepare for rearranging
+                _children.Clear();
+                ArrangeImages();
             }
         }
 

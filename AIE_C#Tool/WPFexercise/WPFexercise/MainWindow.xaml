@@ -7,15 +7,12 @@
     <Grid>
         <Menu Height="Auto" HorizontalAlignment="Left" Name="menu1"
               VerticalAlignment="Top" Width="Auto">
-            <MenuItem Header="_File">
-                <MenuItem Header="_Open" Click="MenuItemOpen_Click"></MenuItem>
-                <MenuItem Header="_Save" Click="MenuItemSave_Click"></MenuItem>
-            </MenuItem>
+            <MenuItem Header="_Export" Click="MenuItemExport_Click"></MenuItem>
         </Menu>
-        <Border BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Center" VerticalAlignment="Center"
+        <Border BorderThickness="1" BorderBrush="Gray" HorizontalAlignment="Center" VerticalAlignment="Center" 
                 Width="Auto" Height="Auto" Margin="50,50,50,50">
-            <Canvas Height="200" Width="200" HorizontalAlignment="Center" Name="canvas1" 
-                            VerticalAlignment="Center"  Margin="5,5,5,5" />
+            <Canvas Height="200" Width="200"  Name="canvas1" 
+                             Margin="5,5,5,5"/>
         </Border>
     </Grid>
 </Window>

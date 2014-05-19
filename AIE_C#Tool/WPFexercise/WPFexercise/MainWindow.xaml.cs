@@ -10,13 +10,13 @@ namespace WPFexercise
     {
         private void WindowLoaded(object sender, EventArgs e)
         {
-            InitializeComponent(); // still need this?
+            InitializeComponent();
             MyVisualHost visualHost = new MyVisualHost();
-            // size the canvas based on amount of images->desired final sheet size
-            int canvasSize = visualHost.CalculateCanvas();
-            canvas1.Width = canvasSize;
-            canvas1.Height = canvasSize;
-
+            // retrieve the calculated canvas size from visualHost
+            int desiredCanvasSize = visualHost.canvasSize;
+            canvas1.Width = desiredCanvasSize;
+            canvas1.Height = desiredCanvasSize;
+            
             canvas1.Children.Add(visualHost);
         }
         private void MenuItemOpen_Click(object sender, RoutedEventArgs e)
@@ -37,7 +37,7 @@ namespace WPFexercise
 
         }
 
-        private void MenuItemSave_Click(object sender, RoutedEventArgs e)
+        private void MenuItemExport_Click(object sender, RoutedEventArgs e)
         {
             // run the Save File dialog and create file path
             string filename = FileIO.SaveDialog();
